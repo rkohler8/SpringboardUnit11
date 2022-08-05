@@ -7,9 +7,14 @@
 const customForm = document.querySelector('#custom-form');
 const customHeight = document.querySelector('input[name="custom-height"]');
 const customWidth = document.querySelector('input[name="custom-width"]');
+const htmlBoard = document.querySelector('#board');
+
 
 let WIDTH = 7;
 let HEIGHT = 6;
+let currPlayer = 1; // active player: 1 or 2
+let board = []; // array of rows, each row is array of cells  (board[y][x])
+
 customForm.addEventListener('submit', function(e) {
   e.preventDefault();
   HEIGHT = customHeight.value;
@@ -17,11 +22,12 @@ customForm.addEventListener('submit', function(e) {
   console.log(HEIGHT);
   console.log(WIDTH);
   console.log('SUBMITTED!!');
+  while(htmlBoard.lastElementChild) {
+    htmlBoard.removeChild(htmlBoard.lastElementChild);
+  }
+  makeBoard();
+  makeHtmlBoard();
 });
-
-
-let currPlayer = 1; // active player: 1 or 2
-let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
@@ -29,14 +35,14 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-
+  board = [HEIGHT][WIDTH];
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
   // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
-  const htmlBoard = document.querySelector('#board');
+  // const htmlBoard = document.querySelector('#board');
   // TODO: add comment for this code
   const top = document.createElement("tr");
   top.setAttribute("id", "column-top");
