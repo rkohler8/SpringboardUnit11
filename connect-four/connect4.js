@@ -4,9 +4,21 @@
  * column until a player gets four-in-a-row (horiz, vert, or diag) or until
  * board fills (tie)
  */
+const customForm = document.querySelector('#custom-form');
+const customHeight = document.querySelector('input[name="custom-height"]');
+const customWidth = document.querySelector('input[name="custom-width"]');
 
 let WIDTH = 7;
 let HEIGHT = 6;
+customForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  HEIGHT = customHeight.value;
+  WIDTH = customWidth.value;
+  console.log(HEIGHT);
+  console.log(WIDTH);
+  console.log('SUBMITTED!!');
+});
+
 
 let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
