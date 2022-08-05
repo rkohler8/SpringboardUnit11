@@ -15,6 +15,10 @@
   height: 80%;
 }
 
+body {
+  background-color: skyblue;
+}
+
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
 .dot {
   height: 25px;
