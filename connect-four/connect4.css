@@ -16,6 +16,13 @@
 }
 
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
 
 /* column-top is table row of clickable areas for each column */
 
