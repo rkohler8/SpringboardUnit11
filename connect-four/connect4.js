@@ -61,12 +61,15 @@ function makeHtmlBoard() {
   const top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
+  const playLabel = document.createElement("label");
+  playLabel.innerText = '← Click this row to drop a piece!';
 
   for (let x = 0; x < WIDTH; x++) {
     let headCell = document.createElement("td");
     headCell.setAttribute("id", x);
     top.append(headCell);
   }
+  top.append(playLabel);
   htmlBoard.append(top);
 
   // TODO: add comment for this code
