@@ -21,16 +21,14 @@ body {
 
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
 .p1 {
-  /* height: 25px;
-  width: 25px; */
+  /* color: white; */
   background-color: red;
   border-radius: 50%;
   display: inline-block;
 }
 
 .p2 {
-  /* height: 25px;
-  width: 25px; */
+  color: white;
   background-color: blue;
   border-radius: 50%;
   display: inline-block;

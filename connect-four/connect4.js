@@ -8,6 +8,7 @@ const htmlBoard = document.querySelector('#board');
 const customForm = document.querySelector('#custom-form');
 const customHeight = document.querySelector('input[name="custom-height"]');
 const customWidth = document.querySelector('input[name="custom-width"]');
+const turnToken = document.querySelector('h1 label');
 
 
 let WIDTH = 7;
@@ -17,16 +18,22 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 customForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  HEIGHT = customHeight.value;
-  WIDTH = customWidth.value;
-  console.log(HEIGHT);
-  console.log(WIDTH);
-  console.log('SUBMITTED!!');
-  while(htmlBoard.lastElementChild) {
-    htmlBoard.removeChild(htmlBoard.lastElementChild);
+  if(customHeight.value >= 4 || customWidth.value >= 4) {
+    if(customHeight.value != '' && customHeight.value != 0) {
+      HEIGHT = customHeight.value;
+    }
+    if(customWidth.value != '' && customWidth.value != 0) {
+      WIDTH = customWidth.value;
+    }
+    while(htmlBoard.lastElementChild) {
+      htmlBoard.removeChild(htmlBoard.lastElementChild);
+    }
+    makeBoard();
+    makeHtmlBoard();
   }
-  makeBoard();
-  makeHtmlBoard();
+  else {
+    alert('Unplayable Game Parameters')
+  }
 });
 
 /** makeBoard: create in-JS board structure:
@@ -138,7 +145,18 @@ function handleClick(evt) {
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
-  currPlayer === 1 ? currPlayer = 2 : currPlayer = 1;
+  // currPlayer === 1 ? currPlayer = 2 : currPlayer = 1;
+  if(currPlayer === 1) {
+    currPlayer = 2;
+    turnToken.setAttribute('class', 'p2');
+    turnToken.innerText = 'P2';
+  }
+  else {
+    currPlayer = 1;
+    turnToken.setAttribute('class', 'p1');
+    turnToken.innerText = 'P1';
+  }
+
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
