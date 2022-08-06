@@ -39,11 +39,10 @@ function makeBoard() {
     console.log(y);
     board[y] = [];
     for (let x = 0; x < WIDTH; x++) {
-      board[y][x] = 0;
+      board[y][x] = null;
     }
   }
   console.log(board);
-  // board = [HEIGHT][WIDTH];
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
@@ -80,7 +79,7 @@ function makeHtmlBoard() {
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
   for(let i = HEIGHT-1; i >= 0; i--) {
-    if(board[i][x] == 0) {
+    if(board[i][x] === null) {
       return i;
     }
   }
@@ -102,7 +101,8 @@ function placeInTable(y, x) {
 
 function endGame(msg) {
   // TODO: pop up alert message
-
+  alert(msg);
+  // setTimeout(alert(msg), 2000);
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -130,13 +130,14 @@ function handleClick(evt) {
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
+  if(board[0].every(function(value) {
+    return value != null;
+  })) {
+    return endGame("It's a Tie!");
+  }
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
-  // if(currPlayer === 1) {
-  //   currPlayer = 2;
-  // }
-  // else currPlayer = 1;
   currPlayer === 1 ? currPlayer = 2 : currPlayer = 1;
 }
 
