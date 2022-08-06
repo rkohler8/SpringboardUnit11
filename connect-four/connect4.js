@@ -4,10 +4,10 @@
  * column until a player gets four-in-a-row (horiz, vert, or diag) or until
  * board fills (tie)
  */
+const htmlBoard = document.querySelector('#board');
 const customForm = document.querySelector('#custom-form');
 const customHeight = document.querySelector('input[name="custom-height"]');
 const customWidth = document.querySelector('input[name="custom-width"]');
-const htmlBoard = document.querySelector('#board');
 
 
 let WIDTH = 7;
@@ -35,7 +35,15 @@ customForm.addEventListener('submit', function(e) {
 
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-  board = [HEIGHT][WIDTH];
+  for (let y = 0; y < HEIGHT; y++) {
+    console.log(y);
+    board[y] = [];
+    for (let x = 0; x < WIDTH; x++) {
+      board[y][x] = null;
+    }
+  }
+  console.log(board);
+  // board = [HEIGHT][WIDTH];
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
@@ -79,7 +87,7 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
-
+  
 }
 
 /** endGame: announce game end */
