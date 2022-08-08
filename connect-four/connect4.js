@@ -18,13 +18,18 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 customForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  if(customHeight.value >= 4 || customWidth.value >= 4) {
-    if(customHeight.value != '' && customHeight.value != 0) {
-      HEIGHT = customHeight.value;
+  if(checkForWin()) {
+    customHeight.value = HEIGHT;
+    customWidth.value = WIDTH;
+    if(currPlayer === 2) {
+      currPlayer = 1;
+      turnToken.setAttribute('class', 'p1');
+      turnToken.innerText = 'P1';
     }
-    if(customWidth.value != '' && customWidth.value != 0) {
-      WIDTH = customWidth.value;
-    }
+  }
+  if(customHeight.value >= 4 || customWidth.value >= 4 && customHeight.value != '' && customHeight.value < 1 && customWidth.value != '' && customWidth.value < 1) {
+    HEIGHT = customHeight.value;
+    WIDTH = customWidth.value;
     while(htmlBoard.lastElementChild) {
       htmlBoard.removeChild(htmlBoard.lastElementChild);
     }
@@ -33,6 +38,8 @@ customForm.addEventListener('submit', function(e) {
   }
   else {
     alert('Unplayable Game Parameters')
+    customHeight.value = HEIGHT;
+    customWidth.value = WIDTH;
   }
 });
 
@@ -43,13 +50,11 @@ customForm.addEventListener('submit', function(e) {
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
   for (let y = 0; y < HEIGHT; y++) {
-    console.log(y);
     board[y] = [];
     for (let x = 0; x < WIDTH; x++) {
       board[y][x] = null;
     }
   }
-  console.log(board);
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
@@ -58,29 +63,29 @@ function makeHtmlBoard() {
   // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
   // const htmlBoard = document.querySelector('#board');
   // TODO: add comment for this code
-  const top = document.createElement("tr");
-  top.setAttribute("id", "column-top");
-  top.addEventListener("click", handleClick);
-  const playLabel = document.createElement("label");
-  playLabel.innerText = '← Click this row to drop a piece!';
+  const top = document.createElement("tr");                   // Creates a tr for the top of each column
+  top.setAttribute("id", "column-top");                       // Adds id=colum-top to the top of the columns
+  top.addEventListener("click", handleClick);                 // Adds an event listener for each column
+  const playLabel = document.createElement("label");          // My addition to denote where to play
+  playLabel.innerText = '← Click this row to drop a piece!';  // My addition to denote where to play
 
-  for (let x = 0; x < WIDTH; x++) {
+  for (let x = 0; x < WIDTH; x++) {                           // Creates td cells with the id=x
     let headCell = document.createElement("td");
     headCell.setAttribute("id", x);
-    top.append(headCell);
+    top.append(headCell);                                     // Appends each td to the top-column tr
   }
-  top.append(playLabel);
-  htmlBoard.append(top);
+  top.append(playLabel);                                      // My addition appends play area marker label to the end of the top-column tr
+  htmlBoard.append(top);                                      // Appends top-column tr to the htmlBoard to form the clickable top row
 
   // TODO: add comment for this code
-  for (let y = 0; y < HEIGHT; y++) {
-    let row = document.createElement("tr");
-    for (let x = 0; x < WIDTH; x++) {
-      let cell = document.createElement("td");
-      cell.setAttribute("id", `${y}-${x}`);
-      row.append(cell);
+  for (let y = 0; y < HEIGHT; y++) {                          // Creates column height y variable
+    let row = document.createElement("tr");                   // Creates a tr row for each column
+    for (let x = 0; x < WIDTH; x++) {                         // Creates row length x variable
+      let cell = document.createElement("td");                // Creates mutable td cell
+      cell.setAttribute("id", `${y}-${x}`);                   // Gives each td cell an id of "their y position"-"their x position" for accessability during play
+      row.append(cell);                                       // Appends each td to its respective y-row tr
     }
-    htmlBoard.append(row);
+    htmlBoard.append(row);                                    // Appends each filled tr row to the game board
   }
 }
 
@@ -131,7 +136,6 @@ function handleClick(evt) {
   // TODO: add line to update in-memory board
   placeInTable(y, x);
   board[y][x] = currPlayer;
-  console.log(board);
 
   // check for win
   if (checkForWin()) {
@@ -184,13 +188,13 @@ function checkForWin() {
 
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
-      const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
-      const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
-      const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+      const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];               // Creates horizontal win-condition variable for each coordinate
+      const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];                // Creates vertical win-condition variable for each coordinate
+      const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];  // Creates diagonal win-condition variable from bottom-left to top-right for each coordinate
+      const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];  // Creates diagonal win-condition variable from top-left to bottom-right for each coordinate
 
-      if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
-        return true;
+      if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {          // Checks all win-condition variables for validity
+        return true;                                                             // if confirmed, return true and end win check loop
       }
     }
   }
